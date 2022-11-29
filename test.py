@@ -32,6 +32,7 @@ def SingleSniffing(targetip):
 			#while var:
 			spoofarpcache(targetip, targetmac, gatewayip)
 			spoofarpcache(gatewayip, gatewaymac, targetip)
+   			print("J'en ai marre stop toi et marche ta mère la reine des caramels")
 		except KeyboardInterrupt:
 			print("ARP spoofing stopped")
 			restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
