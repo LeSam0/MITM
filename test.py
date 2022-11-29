@@ -11,14 +11,14 @@ def restorearp(targetip, targetmac, sourceip, sourcemac):
     send(packet, verbose=False)
     print("ARP Table restored to normal for", targetip)
 
-#def MultiSniffing():
-ipt = {}
-var = False
-ip = ".".join(conf.route.route("0.0.0.0")[1].split(".")[:-1]) + "."
-for num in range(1, 254):
-	if str(arping(ip + str(num))[0])[-2] != "0":
-		ipt[ip + str(num)] = getmacbyip(ip + str(num))
-print(ipt)
+def MultiSniffing():
+    ipt = {}
+    var = False
+    ip = ".".join(conf.route.route("0.0.0.0")[1].split(".")[:-1]) + "."
+    for num in range(1, 254):
+        if str(arping(ip + str(num))[0])[-2] != "0":
+            ipt[ip + str(num)] = getmacbyip(ip + str(num))
+    print(ipt)
 
 
 def SingleSniffing(targetip):
@@ -40,4 +40,4 @@ def SingleSniffing(targetip):
         print("Ip not reachable")
 
 
-#SingleSniffing(input("Which ip : "))
+SingleSniffing(input("Which ip : "))
