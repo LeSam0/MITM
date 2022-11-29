@@ -1,5 +1,5 @@
 from scapy.layers.l2 import *
-from scapy.sendrecv import send
+from scapy.sendrecv import sr
 
 result = []
 
