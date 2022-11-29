@@ -23,9 +23,9 @@ def MultiSniffing():
 
 def SingleSniffing(targetip):
     if str(arping(targetip)[0])[-2] != "0" :
-        targetmac = getmacbyip(targetip)
-        gatewayip = conf.route.route(targetip)
-        gatewaymac = getmacbyip(conf.route.route(targetip)[2])
+        targetmac = str(getmacbyip(targetip))
+        gatewayip = str(conf.route.route(targetip))
+        gatewaymac = str(getmacbyip(conf.route.route(targetip)[2]))
         print(gatewayip)
         try:
             print("Sending spoofed ARP responses")
