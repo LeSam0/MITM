@@ -43,34 +43,31 @@ def SingleSniffing(targetip, passerelleip):
 	else:
 		print("Ip not reachable")
 
-match len(sys.argv):
-    case 1:
+if len(sys.argv) == 1:
+    print("Please can you enter the target IP Adress and Passerelle IP")
+elif len(sys.argv) == 2:
+    if sys.argv[1] == "-h":
+        print("Use '-s [targetIp] [passerelleIP]'\n Or '-m [passerelleIP]'")
+    elif sys.argv[1] == "-s":
         print("Please can you enter the target IP Adress and Passerelle IP")
-    case 2:
-        match sys.argv[1]:
-            case "-s":
-                print("Please can you enter the target IP Adress and Passerelle IP")
-            case "-m":
-                print("Please can you enter the Passerelle IP")
-            case _:
-                print("Please can you enter the Passerelle IP")
-    case 3:
-        match sys.argv[1]:
-            case "-s":
-                print("Please can you enter the Passerelle IP")
-            case "-m":
-                MultiSniffing(sys.argv[2])
-            case _:
-                SingleSniffing(sys.argv[1], sys.argv[2])
-    case 4:
-        match sys.argv[1]:
-            case "-s":
-                SingleSniffing(sys.argv[2], sys.argv[3])
-            case _:
-                print("To many arguments")
-    case _:
+    elif sys.argv[1] == "-m":
+        print("Please can you enter the Passerelle IP")
+    else:
+        print("Please can you enter the Passerelle IP")
+elif len(sys.argv) == 3:
+    if sys.argv[1] == "-s":
+        print("Please can you enter the Passerelle IP")
+    elif sys.argv[1] == "-m":
+        MultiSniffing(sys.argv[2])
+    else:
+        SingleSniffing(sys.argv[1], sys.argv[2])
+elif len(sys.argv) == 4:
+    if sys.argv[1] == "-s":
+        SingleSniffing(sys.argv[2], sys.argv[3])
+    else:
         print("To many arguments")
-    
+else:
+    print("To many arguments")
 
 
 
