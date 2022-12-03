@@ -1,5 +1,5 @@
 from scapy.layers.l2 import *
-from scapy.sendrecv import send, sniff
+from scapy.sendrecv import send, sniff, DNS , DNSQR
 
 import sys
 
