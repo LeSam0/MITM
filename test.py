@@ -1,6 +1,6 @@
 from scapy.layers.l2 import *
 from scapy.sendrecv import send, sniff
-from scapy.layers.dns import DNS , DNSQR
+from scapy.layers.dns import DNS , DNSQR , IP , UDP
 
 import sys
 
