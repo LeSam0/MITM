@@ -49,6 +49,7 @@ def SingleSniffing(targetip, passerelleip):
                 spoofarpcache(targetip, targetmac, gatewayip)
                 spoofarpcache(gatewayip, gatewaymac, targetip)
                 DNSSpoofing(targetip)
+                print("Hey")
                 time.sleep(500)
 
         except KeyboardInterrupt:
